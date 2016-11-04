@@ -19,6 +19,9 @@ public class AboboraScript : MonoBehaviour
     private const string CONTROLE_VERTICAL = "P1_Vertical";
     private const string CONTROLE_HORIZONTAL = "P1_Horizontal";
 
+    public static float direcaoDoPersonagem; 
+
+
     //Vida
     public static int HealthAbobora;
 
@@ -35,9 +38,6 @@ public class AboboraScript : MonoBehaviour
         Move();
         Vida();
         Shooter();
-
-        float direcao = Input.GetAxisRaw(CONTROLE_HORIZONTAL);
-        Debug.Log(direcao);
     }
 
     /// <summary>
@@ -56,11 +56,21 @@ public class AboboraScript : MonoBehaviour
     /// </summary>
    private void Move()
     {
-        float TranslationY = Input.GetAxisRaw(CONTROLE_VERTICAL) * velocidade * Time.deltaTime;
-        personagem1.transform.Translate(0, TranslationY, 0);
+        float movimento = Input.GetAxisRaw(CONTROLE_VERTICAL);
+       if(movimento < -0.3f || movimento > 0.3f)
+       {
+           float TranslationY = Input.GetAxisRaw(CONTROLE_VERTICAL) * velocidade * Time.deltaTime;
+           personagem1.transform.Translate(0, TranslationY, 0);
+       }
 
-        float TranslationX = Input.GetAxisRaw(CONTROLE_HORIZONTAL) * velocidade * Time.deltaTime;
-        personagem1.transform.Translate(TranslationX, 0, 0);
+       float outroMovimento = Input.GetAxisRaw(CONTROLE_HORIZONTAL);
+       if(outroMovimento < -0.3f || outroMovimento > 0.3f)
+       {
+           float TranslationX = Input.GetAxisRaw(CONTROLE_HORIZONTAL) * velocidade * Time.deltaTime;
+           personagem1.transform.Translate(TranslationX, 0, 0);
+       }
+
+       Debug.Log(movimento);
     }
 
    /// <summary>
@@ -69,9 +79,20 @@ public class AboboraScript : MonoBehaviour
    /// </summary>
   private void Shooter()
    {
-      if (Input.GetButtonDown("Fire1"))
+      if (Input.GetKeyDown(KeyCode.Joystick1Button14))
       {
-          Vector3 pos = localBala.transform.position;
+          direcaoDoPersonagem = Input.GetAxisRaw(CONTROLE_HORIZONTAL);
+
+          if (direcaoDoPersonagem < 0)
+          {
+              tiroAbobora.velocidadeTiro = tiroAbobora.velocidadeTiro * -1;
+          }
+          else if(direcaoDoPersonagem > 0)
+          {
+              tiroAbobora.velocidadeTiro = 3f;
+          }
+
+          Vector3 pos = this.transform.position;
           Instantiate(bala, new Vector2(pos.x, pos.y), Quaternion.identity);
       }
    }
