@@ -1,135 +1,99 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-/// <summary>
-/// Classe para controle do personagem Abobora
-/// </summary>
 public class AboboraScript : MonoBehaviour
 {
-    //Movimentação
-    public GameObject personagem1;
+    private int numeroDeBalas;
+    public GameObject tiro;
     public float velocidade;
     public float MaxX;
     public float MinX;
     public float MaxY;
     public float MinY;
-    private int municao;
-
-    public GameObject bala;
-
-    private const string CONTROLE_VERTICAL = "P1_Vertical";
-    private const string CONTROLE_HORIZONTAL = "P1_Horizontal";
-
-    public static float direcaoDoPersonagem; 
-
-
-    //Vida
     public static int HealthAbobora;
 
-
-    // Use this for initialization
-    void Start() 
+    /// <summary>
+    /// Inciando o código para o personagem ter 5 balas e 100 de vida
+    /// </summary>
+    void Start()
     {
         HealthAbobora = 100;
+        numeroDeBalas = 5;
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Chamando todos os métodos criados
+    /// </summary>
     void Update()
     {
         Move();
         Vida();
-        Shooter();
+        Atirar();
     }
 
     /// <summary>
-    /// Método utilizado para verificar vida do personagem
+    /// Realiza ação de verificar se a vida do personagem acabou
     /// </summary>
-  private void Vida()
+    private void Vida()
     {
         if (HealthAbobora <= 0)
         {
-            Destroy(personagem1);
+			Destroy(this.gameObject);
         }
     }
 
     /// <summary>
-    /// Método utilizado para movimentação do personagem
+    /// Realiza movimentação do personagem
     /// </summary>
-   private void Move()
+    private void Move()
     {
-        float movimento = Input.GetAxisRaw(CONTROLE_VERTICAL);
-       
-           float TranslationY = Input.GetAxisRaw(CONTROLE_VERTICAL) * velocidade * Time.deltaTime;
-           personagem1.transform.Translate(0, TranslationY, 0);
-       
+        float TranslationY = Input.GetAxisRaw("P1_Vertical") * velocidade * Time.deltaTime;
+		this.transform.Translate(0, TranslationY, 0);
 
-       float outroMovimento = Input.GetAxisRaw(CONTROLE_HORIZONTAL);
-       
-           float TranslationX = Input.GetAxisRaw(CONTROLE_HORIZONTAL) * velocidade * Time.deltaTime;
-           personagem1.transform.Translate(TranslationX, 0, 0);
-       
-
-       //Debug.Log(movimento);
+        float TranslationX = Input.GetAxisRaw("P1_Horizontal") * velocidade * Time.deltaTime;
+		this.transform.Translate(TranslationX, 0, 0);
     }
 
-   /// <summary>
-   /// Método para o personagem atirar
-   /// Fire1 = Botão A
-   /// </summary>
-  private void Shooter()
-   {
-      if (Input.GetKeyDown(KeyCode.X))
-      {
-          direcaoDoPersonagem = Input.GetAxisRaw(CONTROLE_HORIZONTAL);
-
-          if (direcaoDoPersonagem < 0)
-          {
-              tiroAbobora.velocidadeTiro = tiroAbobora.velocidadeTiro * -1;
-          }
-          else if(direcaoDoPersonagem > 0)
-          {
-              tiroAbobora.velocidadeTiro = 3f;
-          }
-
-          Vector3 pos = this.transform.position;
-          Instantiate(bala, new Vector2(pos.x, pos.y), Quaternion.identity);
-      }
-   }
-
     /// <summary>
-    /// Método para entrar em colisão por Trigger
+    /// Realização ação de tiro
     /// </summary>
-    /// <param name="other">Recebe o objeto que irá colidir</param>
-    void OnTriggerEnter2D(Collider2D other)
+    private void Atirar()
     {
-        if (other.gameObject.tag == "Lama")
+        if (Input.GetKeyDown(KeyCode.Space) && numeroDeBalas >= 0 && numeroDeBalas <= 5) // TROCAR PARA INPUT DE CONTROLE
         {
-            velocidade = 1;
-        }
-
-        //Recebendo colisão de alguma fruta
-        if(other.gameObject.tag == "Fruta1")
-        {
-            HealthAbobora -= 1;
-            //Game Over!
+            Instantiate(tiro, new Vector2(this.transform.position.x, this.transform.position.y), Quaternion.identity);
+            numeroDeBalas -= 1;
         }
     }
 
     /// <summary>
-    /// Método para sair da colisão por Trigger
+    /// Método para entrada em uma colisão via TRIGGER!!!!!
+    /// PRECISA TER ON TRIGGER LIGADO NO COLLIDER
     /// </summary>
-    /// <param name="other">Recebe objeto que irá sair da colisão</param>
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.tag == "Lama")
-        {
-            velocidade = 3;
-        }
+    /// <param name="coll">Objeto que colidiu</param>
+	void OnTriggerStay2D(Collider2D coll)
+	{
+		if (coll.gameObject.tag == "Lama")
+		{
+			velocidade = 1;
+		}
 
-        //Coslisao com municao da abobora
-        if (other.gameObject.tag == "RecargaAbobora")
-        {
-            municao += 1;
-        }
-    }
+		if (coll.gameObject.tag == "Abobora_Canto")
+		{
+            if (Input.GetKeyUp(KeyCode.R))
+            {
+                numeroDeBalas = 5;
+            }
+		}
+	}
+
+    /// <summary>
+    /// Método para saida de uma colisão via TRIGGER!!!!!
+    /// PRECISA TER ON TRIGGER LIGADO NO COLLIDER
+    /// </summary>
+    /// <param name="coll">Objeto que saiu da colisão</param>
+	void OnTriggerExit2D(Collider2D coll)
+	{
+		velocidade = 3;
+	}
 }
