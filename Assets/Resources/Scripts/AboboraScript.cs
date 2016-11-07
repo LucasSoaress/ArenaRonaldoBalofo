@@ -13,6 +13,7 @@ public class AboboraScript : MonoBehaviour
     public float MinX;
     public float MaxY;
     public float MinY;
+    private int municao;
 
     public GameObject bala;
 
@@ -57,20 +58,18 @@ public class AboboraScript : MonoBehaviour
    private void Move()
     {
         float movimento = Input.GetAxisRaw(CONTROLE_VERTICAL);
-       if(movimento < -0.3f || movimento > 0.3f)
-       {
+       
            float TranslationY = Input.GetAxisRaw(CONTROLE_VERTICAL) * velocidade * Time.deltaTime;
            personagem1.transform.Translate(0, TranslationY, 0);
-       }
+       
 
        float outroMovimento = Input.GetAxisRaw(CONTROLE_HORIZONTAL);
-       if(outroMovimento < -0.3f || outroMovimento > 0.3f)
-       {
+       
            float TranslationX = Input.GetAxisRaw(CONTROLE_HORIZONTAL) * velocidade * Time.deltaTime;
            personagem1.transform.Translate(TranslationX, 0, 0);
-       }
+       
 
-       Debug.Log(movimento);
+       //Debug.Log(movimento);
     }
 
    /// <summary>
@@ -79,7 +78,7 @@ public class AboboraScript : MonoBehaviour
    /// </summary>
   private void Shooter()
    {
-      if (Input.GetKeyDown(KeyCode.Joystick1Button14))
+      if (Input.GetKeyDown(KeyCode.X))
       {
           direcaoDoPersonagem = Input.GetAxisRaw(CONTROLE_HORIZONTAL);
 
@@ -107,6 +106,13 @@ public class AboboraScript : MonoBehaviour
         {
             velocidade = 1;
         }
+
+        //Recebendo colisão de alguma fruta
+        if(other.gameObject.tag == "Fruta1")
+        {
+            HealthAbobora -= 1;
+            //Game Over!
+        }
     }
 
     /// <summary>
@@ -118,6 +124,12 @@ public class AboboraScript : MonoBehaviour
         if (other.gameObject.tag == "Lama")
         {
             velocidade = 3;
+        }
+
+        //Coslisao com municao da abobora
+        if (other.gameObject.tag == "RecargaAbobora")
+        {
+            municao += 1;
         }
     }
 }
