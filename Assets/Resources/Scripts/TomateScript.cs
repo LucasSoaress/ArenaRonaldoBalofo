@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TomateScript : MonoBehaviour {
 
-    public GameObject personagem4;
+	public GameObject Tomate;
     public float velocidade;
     public float MaxX;
     public float MinX;
@@ -30,28 +30,33 @@ public class TomateScript : MonoBehaviour {
 
         if (HealthTomate <= 0)
         {
-            Destroy(personagem4);
+			Destroy(Tomate);
         }
     }
 
     void Move() {
 
         float TranslationY = Input.GetAxisRaw("P4_Vertical") * velocidade * Time.deltaTime;
-        personagem4.transform.Translate(0, TranslationY, 0);
+		Tomate.transform.Translate(0, TranslationY, 0);
 
         float TranslationX = Input.GetAxisRaw("P4_Horizontal") * velocidade * Time.deltaTime;
-        personagem4.transform.Translate(TranslationX, 0, 0);
+		Tomate.transform.Translate(TranslationX, 0, 0);
 
 
     }
 
-    void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "Lama") {
-
-            velocidade = 1;
-
-        }
-
-    }
+	void OnTriggerStay2D(Collider2D coll)
+	{
+		Debug.Log ("Entrou");
+		if (coll.gameObject.tag == "Lama")
+		{
+			velocidade = 1;
+		}
+	}
+	
+	void OnTriggerExit2D(Collider2D coll)
+	{
+		Debug.Log ("Saiu"); 
+		velocidade = 3;
+	}
 }

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CenouraScript : MonoBehaviour {
 
-    public GameObject personagem2;
+	public GameObject Cenoura;
     public float velocidade;
     public float MaxX;
     public float MinX;
@@ -33,7 +33,7 @@ public class CenouraScript : MonoBehaviour {
 
         if (HealthCenoura <= 0)
         {
-            Destroy(personagem2);
+			Destroy(Cenoura);
         }
     }
 
@@ -41,22 +41,24 @@ public class CenouraScript : MonoBehaviour {
     {
 
         float TranslationY = Input.GetAxisRaw("P2_Vertical") * velocidade * Time.deltaTime;
-        personagem2.transform.Translate(0, TranslationY, 0);
+		Cenoura.transform.Translate(0, TranslationY, 0);
 
         float TranslationX = Input.GetAxisRaw("P2_Horizontal") * velocidade * Time.deltaTime;
-        personagem2.transform.Translate(TranslationX, 0, 0);
+		Cenoura.transform.Translate(TranslationX, 0, 0);
 
 
     }
 
-    void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.tag == "Lama")
-        {
-
-            velocidade = 1;
-
-        }
-
-    }
+	void OnTriggerStay2D(Collider2D coll)
+	{
+		if (coll.gameObject.tag == "Lama")
+		{
+			velocidade = 1;
+		}
+	}
+	
+	void OnTriggerExit2D(Collider2D coll)
+	{
+		velocidade = 3;
+	}
 }

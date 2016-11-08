@@ -14,10 +14,9 @@ public class PimentaScript : MonoBehaviour {
     public static int HealthPimenta;
 
     // Use this for initialization
-    void Start () {
-
+    void Start () 
+    {
         HealthPimenta = 100;
-
     }
 
     // Update is called once per frame
@@ -29,7 +28,6 @@ public class PimentaScript : MonoBehaviour {
 
     void Vida()
     {
-
         if (HealthPimenta <= 0)
         {
             Destroy(personagem3);
@@ -38,24 +36,18 @@ public class PimentaScript : MonoBehaviour {
 
     void Move()
     {
-
         float TranslationY = Input.GetAxisRaw("P3_Vertical") * velocidade * Time.deltaTime;
         personagem3.transform.Translate(0, TranslationY, 0);
 
         float TranslationX = Input.GetAxisRaw("P3_Horizontal") * velocidade * Time.deltaTime;
         personagem3.transform.Translate(TranslationX, 0, 0);
-
-
     }
 
-    void OnCollisionEnter2D(Collision2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Lama")
         {
-
             velocidade = 1;
-
         }
-
     }
 }
