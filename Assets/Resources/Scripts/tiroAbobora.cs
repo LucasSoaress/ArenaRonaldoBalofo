@@ -3,12 +3,17 @@ using System.Collections;
 
 public class tiroAbobora : MonoBehaviour 
 {
+<<<<<<< HEAD
     float SentidoDoTiroV = Input.GetAxisRaw("P1_Vertical");
     float SentidoDoTiroH = Input.GetAxisRaw("P1_Horizontal");
+=======
+
+>>>>>>> origin/master
     public static float velocidadeTiro;
 
 	void Start () 
     {
+<<<<<<< HEAD
         
         velocidadeTiro = 5f;
 	}
@@ -34,6 +39,18 @@ public class tiroAbobora : MonoBehaviour
 
     /// <summary>
     /// Destroi objetos quando não estão visiveis
+=======
+        velocidadeTiro = 3f;
+	}
+	
+	void Update () 
+    {
+        this.transform.Translate(Vector2.right * velocidadeTiro * Time.deltaTime);
+	}
+
+    /// <summary>
+    /// Destrui objetos quando não estão visiveis
+>>>>>>> origin/master
     /// </summary>
     void OnBecameInvisible()
     {
