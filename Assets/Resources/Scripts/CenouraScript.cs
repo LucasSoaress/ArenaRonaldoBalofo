@@ -9,7 +9,7 @@ public class CenouraScript : MonoBehaviour
     public static int HealthCenoura;
     private bool PodeAtirar;
 
-
+    public UnityEngine.UI.Text TextVida;
     /// <summary>
     /// Inciando o código para o personagem ter 5 balas e 100 de vida
     /// </summary>
@@ -28,6 +28,7 @@ public class CenouraScript : MonoBehaviour
         Move();
         Vida();
         Atirar();
+        TextVida.text = HealthCenoura.ToString();
     }
 
     /// <summary>

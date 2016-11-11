@@ -10,6 +10,8 @@ public class TomateScript : MonoBehaviour
     private bool PodeAtirar;
 
 
+
+    public UnityEngine.UI.Text TextVida;
     /// <summary>
     /// Inciando o código para o personagem ter 5 balas e 100 de vida
     /// </summary>
@@ -28,6 +30,7 @@ public class TomateScript : MonoBehaviour
         Move();
         Vida();
         Atirar();
+        TextVida.text = HealthTomate.ToString();
     }
 
     /// <summary>

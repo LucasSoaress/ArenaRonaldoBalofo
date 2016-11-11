@@ -9,7 +9,7 @@ public class BeringelaScript : MonoBehaviour
     public static int HealthBeringela;
     private bool PodeAtirar;
 
-
+    public UnityEngine.UI.Text TextVida;
     /// <summary>
     /// Inciando o código para o personagem ter 5 balas e 100 de vida
     /// </summary>
@@ -28,6 +28,8 @@ public class BeringelaScript : MonoBehaviour
         Move();
         Vida();
         Atirar();
+
+        TextVida.text = HealthBeringela.ToString();
     }
 
     /// <summary>

@@ -9,7 +9,10 @@ public class AboboraScript : MonoBehaviour
     public static int HealthAbobora;
     private bool PodeAtirar;
 
+    public static float Tempinho;
 
+    public UnityEngine.UI.Text TextTempinho;
+    public UnityEngine.UI.Text TextVida;
     /// <summary>
     /// Inciando o código para o personagem ter 5 balas e 100 de vida
     /// </summary>
@@ -18,6 +21,7 @@ public class AboboraScript : MonoBehaviour
         HealthAbobora = 100;
         numeroDeBalas = 5;
         PodeAtirar = true;
+        Tempinho = 180f;
     }
 
     /// <summary>
@@ -28,6 +32,9 @@ public class AboboraScript : MonoBehaviour
         Move();
         Vida();
         Atirar();
+        Tempinho -= Time.deltaTime;
+        TextTempinho.text = Tempinho.ToString();
+        TextVida.text = HealthAbobora.ToString();
     }
 
     /// <summary>
