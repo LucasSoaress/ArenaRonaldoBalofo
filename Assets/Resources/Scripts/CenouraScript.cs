@@ -119,7 +119,7 @@ public class CenouraScript : MonoBehaviour
     {
         if (other.gameObject.tag == "Lama")
         {
-            velocidade = 1;
+            velocidade = velocidade/2;
         }
 
         if (other.gameObject.tag == "Cenoura_Canto")
@@ -127,10 +127,10 @@ public class CenouraScript : MonoBehaviour
 
             PodeAtirar = false;
 
-            if (Input.GetKeyUp(KeyCode.Joystick2Button2))
+            if (Input.GetKeyUp(KeyCode.Joystick2Button2) && numeroDeBalas <= 3)
 
             {
-                numeroDeBalas = 5;
+                numeroDeBalas++;
             }
         }
     }
@@ -142,7 +142,7 @@ public class CenouraScript : MonoBehaviour
     /// <param name="other">Objeto que saiu da colisão</param>
 	void OnTriggerExit2D(Collider2D other)
     {
-        velocidade = 3;
+        velocidade = velocidade * 2;
         PodeAtirar = true;
     }
 }

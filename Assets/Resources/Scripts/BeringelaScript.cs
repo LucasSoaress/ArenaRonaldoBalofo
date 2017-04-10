@@ -120,7 +120,7 @@ public class BeringelaScript : MonoBehaviour
     {
         if (other.gameObject.tag == "Lama")
         {
-            velocidade = 1;
+            velocidade = velocidade/2;
         }
 
         if (other.gameObject.tag == "Beringela_Canto")
@@ -131,7 +131,7 @@ public class BeringelaScript : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.Joystick4Button2))
 
             {
-                numeroDeBalas = 5;
+                numeroDeBalas = 3;
             }
         }
     }
@@ -143,7 +143,7 @@ public class BeringelaScript : MonoBehaviour
     /// <param name="other">Objeto que saiu da colisão</param>
 	void OnTriggerExit2D(Collider2D other)
     {
-        velocidade = 3;
+        velocidade = velocidade * 2;
         PodeAtirar = true;
     }
 }
