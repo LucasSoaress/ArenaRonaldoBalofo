@@ -107,10 +107,14 @@ public class AboboraScript : MonoBehaviour
         float MoveVertical = Input.GetAxisRaw("P1_Vertical");
         float MoveHorizontal = Input.GetAxisRaw("P1_Horizontal");
 
-        if (Input.GetKeyDown(KeyCode.Joystick1Button0) && (MoveHorizontal <= -0.4f || MoveHorizontal >= 0.4f) && (MoveVertical <= -0.4f || MoveVertical >= 0.4f) && PodeAtirar == true && numeroDeBalas >= 0 && numeroDeBalas <= 5)
+        var angle = Mathf.Atan2(MoveHorizontal, MoveVertical) * Mathf.Rad2Deg;
+        Vector3 rotationVector = new Vector3(0, 0, angle);
+        transform.rotation = Quaternion.Euler(rotationVector);
+
+        if (Input.GetKeyDown(KeyCode.Joystick1Button0) && (MoveHorizontal <= -0.4f || MoveHorizontal >= 0.4f) && (MoveVertical <= -0.4f || MoveVertical >= 0.4f) && PodeAtirar == true && numeroDeBalas > 0 && numeroDeBalas <= 5)
         {
 
-            Instantiate(tiro, new Vector2(this.transform.position.x, this.transform.position.y), Quaternion.identity);
+            Instantiate(tiro, transform.position, Quaternion.Euler(rotationVector));
             numeroDeBalas -= 1;
         }
     }
@@ -131,15 +135,23 @@ public class AboboraScript : MonoBehaviour
         Tempinho -= Time.deltaTime;
         int min = Mathf.FloorToInt((Tempinho / 60) % 60);
         int sec = Mathf.FloorToInt(Tempinho % 60);
+
+
         if (Tempinho < 60)
+        {
             TextTempinho.text = "0" + " : " + Mathf.FloorToInt(Tempinho).ToString();
+        }
+
         else
         {
             TextTempinho.text = min.ToString() + " : " + sec.ToString();
         }
         
         if (sec < 10)
+        {
             TextTempinho.text = min.ToString() + " : " + "0" + sec.ToString();
+        }
+
         else
         {
             TextTempinho.text = min.ToString() + " : " + sec.ToString();
@@ -147,7 +159,7 @@ public class AboboraScript : MonoBehaviour
 
         if (Tempinho <= 0)
         {
-            //Application.LoadLevel();
+            Application.Quit();
         }
 
     }
